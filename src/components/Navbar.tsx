@@ -59,7 +59,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span className="font-black text-xl tracking-tight bg-gradient-to-r from-cyan-600 to-emerald-600 dark:from-cyan-400 dark:to-emerald-400 bg-clip-text text-transparent uppercase">
                 WeatherGPT
               </span>
-              <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/30">
+              <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/30 hidden sm:block">
                 NWP AI Core
               </span>
             </div>
@@ -108,7 +108,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           <LocationSearch currentLocation={currentLocation} onLocationSelect={onLocationSelect} presetRegions={presetRegions} />
 
           {/* Regional Indian Language Selector */}
-          <div className="relative">
+          <div className="relative hidden md:block">
             <select
               id="language-selector"
               aria-label="Select Regional Language"

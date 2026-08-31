@@ -64,9 +64,9 @@ export const LocationSearch: React.FC<LocationSearchProps> = ({ currentLocation,
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 text-xs font-medium backdrop-blur-md transition-all"
       >
-        <MapPin className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
-        <span className="max-w-[110px] sm:max-w-[140px] truncate">{currentLocation.name.split(',')[0]}</span>
-        <ChevronDown className={`w-3 h-3 text-slate-500 dark:text-slate-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        <MapPin className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400 flex-shrink-0" />
+        <span className="max-w-[70px] sm:max-w-[140px] truncate">{currentLocation.name.split(',')[0]}</span>
+        <ChevronDown className={`w-3 h-3 text-slate-500 dark:text-slate-400 transition-transform flex-shrink-0 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
       {isOpen && (
