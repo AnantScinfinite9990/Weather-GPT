@@ -104,6 +104,7 @@ export default function App() {
 
   // Handle Location Selection
   const handleLocationSelect = (loc: Coordinates) => {
+    if (!loc || isNaN(loc.lat) || isNaN(loc.lng)) return;
     setCurrentLocation(loc);
   };
 

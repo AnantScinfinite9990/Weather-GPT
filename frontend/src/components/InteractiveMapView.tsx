@@ -43,7 +43,7 @@ export const InteractiveMapView: React.FC<InteractiveMapViewProps> = ({ currentL
   }, [searchQuery]);
 
   const handleSelectResult = (r: any) => {
-    onLocationSelect({ name: `${r.name}, ${r.admin1 || r.country}`, lat: r.latitude, lng: r.longitude });
+    if (r.latitude !== undefined && r.longitude !== undefined) onLocationSelect({ name: `${r.name}, ${r.admin1 || r.country}`, lat: r.latitude, lng: r.longitude });
     setSearchQuery('');
     setSearchResults([]);
   };
@@ -116,7 +116,9 @@ export const InteractiveMapView: React.FC<InteractiveMapViewProps> = ({ currentL
     const updateWeatherLayers = () => {
       group.clearLayers();
       const bounds = map.getBounds();
+      if (!bounds || !bounds.isValid() || isNaN(bounds.getSouth())) return;
       const latStep = (bounds.getNorth() - bounds.getSouth()) / 6;
+      if (isNaN(latStep) || isNaN(lngStep) || latStep === 0 || lngStep === 0) return;
       const lngStep = (bounds.getEast() - bounds.getWest()) / 6;
 
       if (activeLayer === 'temp') {

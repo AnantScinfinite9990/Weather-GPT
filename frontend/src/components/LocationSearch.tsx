@@ -91,7 +91,7 @@ export const LocationSearch: React.FC<LocationSearchProps> = ({ currentLocation,
                 {results.map((r) => (
                   <button
                     key={r.id}
-                    onClick={() => handleSelect({ name: `${r.name}, ${r.admin1 || r.country}`, lat: r.latitude, lng: r.longitude })}
+                    onClick={() => { if (r.latitude !== undefined && r.longitude !== undefined) handleSelect({ name: `${r.name}, ${r.admin1 || r.country}`, lat: r.latitude, lng: r.longitude }) }}
                     className="w-full text-left px-3 py-2 text-xs hover:bg-cyan-50 dark:hover:bg-cyan-500/10 hover:text-cyan-700 dark:hover:text-cyan-300 flex flex-col transition-colors text-slate-700 dark:text-slate-300"
                   >
                     <span className="font-semibold">{r.name}</span>
