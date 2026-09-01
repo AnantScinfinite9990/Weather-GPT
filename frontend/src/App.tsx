@@ -86,7 +86,7 @@ export default function App() {
   const fetchWeather = useCallback(async (loc: Coordinates) => {
     setIsLoadingWeather(true);
     try {
-      const resp = await fetch(`/api/weather/current?lat=${loc.lat}&lon=${loc.lng}&name=${encodeURIComponent(loc.name)}`);
+      const resp = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/weather/current?lat=${loc.lat}&lon=${loc.lng}&name=${encodeURIComponent(loc.name)}`);
       if (resp.ok) {
         const data = await resp.json();
         setWeatherData(data);
@@ -146,7 +146,7 @@ export default function App() {
     setTranscript('');
 
     try {
-      const resp = await fetch('/api/chat/intelligence', {
+      const resp = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/chat/intelligence`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

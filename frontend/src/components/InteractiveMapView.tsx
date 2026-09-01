@@ -73,7 +73,7 @@ export const InteractiveMapView: React.FC<InteractiveMapViewProps> = ({ currentL
         
         let locName = `Region (${roundedLat}°N, ${roundedLng}°E)`;
         try {
-          const resp = await fetch(`/api/geocode/reverse?lat=${roundedLat}&lon=${roundedLng}`);
+          const resp = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/geocode/reverse?lat=${roundedLat}&lon=${roundedLng}`);
           if (resp.ok) {
             const data = await resp.json();
             if (data && data.name) {

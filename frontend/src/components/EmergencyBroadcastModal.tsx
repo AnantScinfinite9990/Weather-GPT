@@ -49,7 +49,7 @@ export const EmergencyBroadcastModal: React.FC<EmergencyBroadcastModalProps> = (
   const handleDispatch = async () => {
     setIsDispatching(true);
     try {
-      const response = await fetch('/api/emergency/broadcast', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/emergency/broadcast`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import path from 'path';
 import dotenv from 'dotenv';
 import { GoogleGenAI } from '@google/genai';
@@ -9,6 +10,7 @@ const app = express();
 const PORT = 3000;
 
 app.use(express.json());
+app.use(cors());
 
 // Initialize Gemini client server-side
 const geminiApiKey = process.env.GEMINI_API_KEY;
@@ -516,31 +518,10 @@ app.post('/api/emergency/broadcast', (req, res) => {
 // VITE / STATIC SERVING
 // -------------------------------------------------------------
 
-async function startServer() {
-  if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
-    const viteModule = 'vite';
-    const { createServer: createViteServer } = await import(viteModule);
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: 'spa',
-    });
-    app.use(vite.middlewares);
-  } else {
-    const distPath = path.join(process.cwd(), 'dist');
-    app.use(express.static(distPath));
-    app.get('*', (req, res) => {
-      res.sendFile(path.join(distPath, 'index.html'));
-    });
-  }
-
-  app.listen(PORT, '0.0.0.0', () => {
-    console.log(`WeatherGPT server running on http://0.0.0.0:${PORT}`);
-  });
-}
-
-// Only start the server if we're not running on Vercel
-if (!process.env.VERCEL) {
-  startServer();
-}
+// Start the server
+const port = process.env.PORT || PORT;
+app.listen(port, () => {
+  console.log(`WeatherGPT backend running on port ${port}`);
+});
 
 export default app;
