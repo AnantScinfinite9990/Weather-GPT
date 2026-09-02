@@ -118,8 +118,9 @@ export const InteractiveMapView: React.FC<InteractiveMapViewProps> = ({ currentL
       const bounds = map.getBounds();
       if (!bounds || !bounds.isValid() || isNaN(bounds.getSouth())) return;
       const latStep = (bounds.getNorth() - bounds.getSouth()) / 6;
-      if (isNaN(latStep) || isNaN(lngStep) || latStep === 0 || lngStep === 0) return;
+
       const lngStep = (bounds.getEast() - bounds.getWest()) / 6;
+      if (isNaN(latStep) || isNaN(lngStep) || latStep === 0 || lngStep === 0) return;
 
       if (activeLayer === 'temp') {
         for (let lat = bounds.getSouth(); lat <= bounds.getNorth(); lat += latStep) {

@@ -518,6 +518,13 @@ app.post('/api/emergency/broadcast', (req, res) => {
 // VITE / STATIC SERVING
 // -------------------------------------------------------------
 
+// Serve static files from frontend/dist
+const frontendDist = path.join(process.cwd(), 'frontend/dist');
+app.use(express.static(frontendDist));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(frontendDist, 'index.html'));
+});
+
 // Start the server
 const port = process.env.PORT || PORT;
 app.listen(port, () => {

@@ -7,7 +7,7 @@
     "install": "npm install --prefix backend && npm install --prefix frontend",
     "dev": "concurrently \"PORT=3001 npm run dev --prefix backend\" \"npm run dev --prefix frontend -- --port 3000 --host 0.0.0.0\"",
     "build": "npm run build --prefix frontend && npm run build --prefix backend",
-    "start": "concurrently \"PORT=3001 npm run start --prefix backend\" \"npm run preview --prefix frontend -- --port 3000 --host 0.0.0.0\"",
+    "start": "node backend/dist/server.cjs",
     "lint": "npm run lint --prefix frontend"
   },
   "devDependencies": {
