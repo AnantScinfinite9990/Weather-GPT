@@ -73,6 +73,42 @@ export default function App() {
   ]);
   const [isGeneratingAI, setIsGeneratingAI] = useState(false);
 
+  useEffect(() => {
+    const fetchHistory = async () => {
+      const token = localStorage.getItem('token');
+      if (currentUser && token) {
+        try {
+          const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/chat/history`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+          if (res.ok) {
+            const data = await res.json();
+            if (data.messages && data.messages.length > 0) {
+              setMessages(data.messages);
+            }
+          }
+        } catch (e) {}
+      }
+    };
+    fetchHistory();
+  }, [currentUser]);
+
+  const saveHistory = async (newMessages: ChatMessage[]) => {
+    const token = localStorage.getItem('token');
+    if (currentUser && token) {
+      try {
+        await fetch(`${import.meta.env.VITE_API_URL || ''}/api/chat/history`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ messages: newMessages })
+        });
+      } catch (e) {}
+    }
+  };
+
   // Voice Assistant Hook
   const {
     isListening,
@@ -145,7 +181,9 @@ export default function App() {
       lang: currentLang
     };
 
-    setMessages(prev => [...prev, userMsg]);
+    const newMessages = [...messages, userMsg];
+    setMessages(newMessages);
+    saveHistory(newMessages);
     setIsGeneratingAI(true);
     setTranscript('');
 
@@ -172,7 +210,7 @@ export default function App() {
           persona: currentPersona,
           lang: currentLang
         };
-        setMessages(prev => [...prev, aiMsg]);
+        setMessages(prev => { const updated = [...prev, aiMsg]; saveHistory(updated); return updated; });
         
         // If user query came via voice, auto read-back the response for rural accessibility
         if (isListening || transcript) {
@@ -205,6 +243,11 @@ export default function App() {
 
     return (
     <div className="min-h-screen bg-white dark:bg-[#0b1120] text-slate-900 dark:text-slate-100 flex flex-col selection:bg-cyan-500 selection:text-white">
+      <AuthModal 
+        isOpen={isAuthModalOpen} 
+        onClose={() => setIsAuthModalOpen(false)} 
+        onLogin={(username) => setCurrentUser(username)} 
+      />
       {activeTab === 'Maps' ? (
         <InteractiveMapView 
           currentLocation={currentLocation} 
