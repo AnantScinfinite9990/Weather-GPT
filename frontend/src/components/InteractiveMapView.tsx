@@ -116,7 +116,7 @@ export const InteractiveMapView: React.FC<InteractiveMapViewProps> = ({ currentL
     const updateWeatherLayers = () => {
       group.clearLayers();
       const bounds = map.getBounds();
-      if (!bounds || !bounds.isValid() || isNaN(bounds.getSouth())) return;
+      if (!bounds || !bounds.isValid() || isNaN(bounds.getSouth()) || isNaN(bounds.getNorth()) || isNaN(bounds.getWest()) || isNaN(bounds.getEast())) return;
       const latStep = (bounds.getNorth() - bounds.getSouth()) / 6;
 
       const lngStep = (bounds.getEast() - bounds.getWest()) / 6;

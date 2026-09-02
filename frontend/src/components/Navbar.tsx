@@ -28,6 +28,9 @@ interface NavbarProps {
   isDarkMode: boolean;
   onToggleTheme: () => void;
   presetRegions?: Coordinates[];
+  currentUser?: string | null;
+  onOpenAuth?: () => void;
+  onLogout?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -42,6 +45,9 @@ export const Navbar: React.FC<NavbarProps> = ({
   isDarkMode,
   onToggleTheme,
   presetRegions,
+  currentUser,
+  onOpenAuth,
+  onLogout,
 }) => {
   const t = UI_TRANSLATIONS[currentLang] || UI_TRANSLATIONS['en'];
   const topAlert = activeAlerts.length > 0 ? activeAlerts[0] : null;
@@ -135,6 +141,30 @@ export const Navbar: React.FC<NavbarProps> = ({
             >
               <VolumeX className="w-4 h-4 text-cyan-600 dark:text-cyan-300" />
             </button>
+          )}
+
+          {/* Auth Controls */}
+          {currentUser ? (
+            <div className="flex items-center gap-2">
+              <span className="hidden sm:inline-block text-xs font-semibold text-slate-700 dark:text-slate-300">
+                Hi, {currentUser}
+              </span>
+              <button
+                onClick={onLogout}
+                className="text-xs font-medium bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-lg transition-colors"
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <button
+                onClick={onOpenAuth}
+                className="text-xs font-semibold bg-cyan-600 hover:bg-cyan-700 text-white px-3 sm:px-4 py-1.5 rounded-lg transition-colors shadow-sm"
+              >
+                Log In
+              </button>
+            </div>
           )}
 
           {/* SOS Broadcast Button with Frosted Red Glass Style */}

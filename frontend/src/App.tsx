@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Navbar } from './components/Navbar';
+import { AuthModal } from './components/AuthModal';
 import { GISMap } from './components/GISMap';
 import { WeatherDashboard } from './components/WeatherDashboard';
 import { AnalyticsChart } from './components/AnalyticsChart';
@@ -34,6 +35,8 @@ export default function App() {
   const [isLoadingWeather, setIsLoadingWeather] = useState(true);
   const [activeAlerts, setActiveAlerts] = useState<WeatherAlert[]>(INITIAL_ALERTS);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState<string | null>(null);
   const [presetRegions, setPresetRegions] = useState<Coordinates[]>(PRESET_REGIONS);
 
   const handleAddRegion = (reg: Coordinates) => {
@@ -213,6 +216,9 @@ export default function App() {
       ) : activeTab === 'Settings' ? (
         <>
           <Navbar
+            currentUser={currentUser}
+            onOpenAuth={() => setIsAuthModalOpen(true)}
+            onLogout={() => { localStorage.removeItem('token'); setCurrentUser(null); }}
             currentLang={currentLang}
             onLanguageChange={setCurrentLang}
             activeAlerts={activeAlerts}
@@ -243,6 +249,9 @@ export default function App() {
       ) : activeTab === 'Chat' ? (
         <>
           <Navbar
+            currentUser={currentUser}
+            onOpenAuth={() => setIsAuthModalOpen(true)}
+            onLogout={() => { localStorage.removeItem('token'); setCurrentUser(null); }}
             currentLang={currentLang}
             onLanguageChange={setCurrentLang}
             activeAlerts={activeAlerts}
@@ -281,6 +290,9 @@ export default function App() {
       ) : (
         <>
           <Navbar
+            currentUser={currentUser}
+            onOpenAuth={() => setIsAuthModalOpen(true)}
+            onLogout={() => { localStorage.removeItem('token'); setCurrentUser(null); }}
             currentLang={currentLang}
             onLanguageChange={setCurrentLang}
             activeAlerts={activeAlerts}
