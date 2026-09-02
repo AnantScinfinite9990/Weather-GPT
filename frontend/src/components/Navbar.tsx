@@ -54,15 +54,15 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <header className="sticky top-0 z-40 w-full bg-white/80 dark:bg-slate-950/60 backdrop-blur-md border-b border-slate-200/20 dark:border-white/10 shadow-xl">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
+      <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-1.5 sm:gap-3">
         {/* Brand & Logo */}
-        <div className="flex items-center gap-3 flex-shrink-0">
-          <div className="w-10 h-10 bg-cyan-500/20 border border-cyan-400/50 rounded-xl flex items-center justify-center shadow-[0_0_15px_rgba(6,182,212,0.3)]">
-            <CloudRain className="w-5 h-5 text-cyan-500 dark:text-cyan-400 animate-pulse" />
+        <div className="flex items-center gap-1.5 sm:gap-3 flex-shrink-0 min-w-0">
+          <div className="w-8 h-8 sm:w-10 sm:h-10 bg-cyan-500/20 border border-cyan-400/50 rounded-xl flex flex-shrink-0 items-center justify-center shadow-[0_0_15px_rgba(6,182,212,0.3)]">
+            <CloudRain className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-500 dark:text-cyan-400 animate-pulse" />
           </div>
-          <div>
+          <div className="min-w-0 flex-shrink">
             <div className="flex items-center gap-2">
-              <span className="font-black text-xl tracking-tight bg-gradient-to-r from-cyan-600 to-emerald-600 dark:from-cyan-400 dark:to-emerald-400 bg-clip-text text-transparent uppercase">
+              <span className="font-black text-sm sm:text-xl tracking-tight bg-gradient-to-r from-cyan-600 to-emerald-600 dark:from-cyan-400 dark:to-emerald-400 bg-clip-text text-transparent uppercase truncate">
                 WeatherGPT
               </span>
               <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/30 hidden sm:block">
@@ -100,11 +100,11 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
 
         {/* Location Dropdown, Language Selector & Actions */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-1.5 sm:gap-3">
           {/* Theme Toggle */}
           <button
             onClick={onToggleTheme}
-            className="p-2 rounded-lg bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-white/10 transition-colors"
+            className="p-1.5 sm:p-2 rounded-lg bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-white/10 transition-colors flex-shrink-0"
             title="Toggle Light/Dark Mode"
           >
             {isDarkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-indigo-600" />}
@@ -145,13 +145,13 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {/* Auth Controls */}
           {currentUser ? (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5 sm:gap-2">
               <span className="hidden sm:inline-block text-xs font-semibold text-slate-700 dark:text-slate-300">
                 Hi, {currentUser}
               </span>
               <button
                 onClick={onLogout}
-                className="text-xs font-medium bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-lg transition-colors"
+                className="text-[10px] sm:text-xs font-medium bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg transition-colors flex-shrink-0"
               >
                 Logout
               </button>
@@ -160,7 +160,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <div className="flex items-center gap-2">
               <button
                 onClick={onOpenAuth}
-                className="text-xs font-semibold bg-cyan-600 hover:bg-cyan-700 text-white px-3 sm:px-4 py-1.5 rounded-lg transition-colors shadow-sm"
+                className="text-[10px] sm:text-xs font-semibold bg-cyan-600 hover:bg-cyan-700 text-white px-2 sm:px-4 py-1 sm:py-1.5 rounded-lg transition-colors shadow-sm flex-shrink-0"
               >
                 Log In
               </button>
@@ -171,9 +171,9 @@ export const Navbar: React.FC<NavbarProps> = ({
           <button
             id="emergency-sos-btn"
             onClick={onOpenSOSModal}
-            className="flex items-center gap-1.5 bg-red-100 dark:bg-red-600/20 hover:bg-red-200 dark:hover:bg-red-600/30 border border-red-300 dark:border-red-500/50 px-3.5 sm:px-4 py-1.5 rounded-lg text-xs font-bold text-red-700 dark:text-red-400 uppercase tracking-wider transition-all shadow-[0_0_12px_rgba(239,68,68,0.1)] dark:shadow-[0_0_12px_rgba(239,68,68,0.2)] active:scale-95"
+            className="flex items-center gap-1 sm:gap-1.5 bg-red-100 dark:bg-red-600/20 hover:bg-red-200 dark:hover:bg-red-600/30 border border-red-300 dark:border-red-500/50 px-2 sm:px-4 py-1 sm:py-1.5 rounded-lg text-[10px] sm:text-xs font-bold text-red-700 dark:text-red-400 uppercase tracking-wider transition-all shadow-[0_0_12px_rgba(239,68,68,0.1)] dark:shadow-[0_0_12px_rgba(239,68,68,0.2)] active:scale-95 flex-shrink-0"
           >
-            <ShieldAlert className="w-4 h-4 animate-bounce" />
+            <ShieldAlert className="w-3.5 h-3.5 sm:w-4 sm:h-4 animate-bounce" />
             <span className="hidden sm:inline">{t.sosBroadcast}</span>
             <span className="sm:hidden">SOS</span>
           </button>

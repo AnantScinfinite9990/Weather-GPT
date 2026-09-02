@@ -242,7 +242,7 @@ export default function App() {
   };
 
     return (
-    <div className="min-h-screen bg-white dark:bg-[#0b1120] text-slate-900 dark:text-slate-100 flex flex-col selection:bg-cyan-500 selection:text-white">
+    <div className="min-h-screen w-full max-w-[100vw] overflow-x-hidden bg-white dark:bg-[#0b1120] text-slate-900 dark:text-slate-100 flex flex-col selection:bg-cyan-500 selection:text-white">
       <AuthModal 
         isOpen={isAuthModalOpen} 
         onClose={() => setIsAuthModalOpen(false)} 

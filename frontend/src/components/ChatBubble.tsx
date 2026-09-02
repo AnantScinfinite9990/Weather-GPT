@@ -75,7 +75,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
 
       {/* Floating Chat Modal Box */}
       {isOpen && (
-        <div className="w-[340px] sm:w-[380px] h-[500px] flex flex-col rounded-3xl bg-white/90 dark:bg-slate-950/85 backdrop-blur-2xl border border-slate-200 dark:border-white/10 shadow-2xl overflow-hidden animate-in">
+        <div className="w-[calc(100vw-2rem)] max-w-[340px] sm:max-w-[380px] h-[500px] flex flex-col rounded-3xl bg-white/90 dark:bg-slate-950/85 backdrop-blur-2xl border border-slate-200 dark:border-white/10 shadow-2xl overflow-hidden animate-in">
           {/* Header */}
           <div className="p-3.5 bg-slate-100 dark:bg-black/40 backdrop-blur-md border-b border-slate-200 dark:border-white/10 flex items-center justify-between">
             <div className="flex items-center gap-2.5">
