@@ -11,6 +11,7 @@ import { EmergencyBroadcastModal } from './components/EmergencyBroadcastModal';
 import { InteractiveMapView } from './components/InteractiveMapView';
 import { SettingsView } from './components/SettingsView';
 
+import { OfflineIndicator } from './components/OfflineIndicator';
 import { useVoiceAssistant } from './hooks/useVoiceAssistant';
 import { 
   Coordinates, 
@@ -243,6 +244,7 @@ export default function App() {
 
     return (
     <div className="min-h-screen w-full max-w-[100vw] overflow-x-hidden bg-white dark:bg-[#0b1120] text-slate-900 dark:text-slate-100 flex flex-col selection:bg-cyan-500 selection:text-white">
+      <OfflineIndicator />
       <AuthModal 
         isOpen={isAuthModalOpen} 
         onClose={() => setIsAuthModalOpen(false)} 

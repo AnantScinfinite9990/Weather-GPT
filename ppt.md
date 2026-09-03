@@ -23,7 +23,7 @@
 * **Detailed explanation of the proposed solution:**
   * **Unified Intelligence Core:** Integrates live numerical weather prediction (NWP) models (GFS/WRF) with real-time radar/satellite telemetry.
   * **AI Query Understanding Engine:** Utilizes advanced LLMs (Gemini API) combined with strict Context-Injection to parse complex user queries (e.g., "Is it safe to spray fertilizer tomorrow morning in Pune?").
-  * **Dynamic Persona Routing:** The AI contextually adapts its responses based on the user's profile:
+  * **Dynamic Persona Routing & Secure Profiles:** The system contextually adapts its AI responses based on the authenticated user's profile and role via a secure MongoDB/JWT backend:
     * *Farmers:* Receives agro-meteorological advisories (soil moisture, crop spray windows).
     * *Disaster Managers:* Receives flash flood indices, storm surge data, and CAPE values.
     * *Aviators & Mariners:* Receives METAR/TAF translations and route safety briefings.
@@ -42,13 +42,13 @@
 * **SMART INDIA HACKATHON 2026**
 * **TECHNICAL APPROACH**
 * **Technologies to be used:**
-  * **Frontend (Mobile & Web):** React 19 / Vite / Tailwind CSS v4 (Responsive & accessible UI).
+  * **Frontend (Mobile & Web):** React 19 / Vite / Tailwind CSS v4 / Framer Motion (Responsive, animated & accessible UI).
   * **Backend Framework:** Node.js & Express.js (Serving as a secure Backend-For-Frontend and AI router).
   * **Data Ingestion:** Fetching meteorological telemetry via REST APIs based on precise geo-coordinates.
   * **AI & LLM Engine:** Google Gemini API integrated natively (Prompt engineering via Context-Injection).
-  * **Database & State:** Client-side React State Management for rapid prototyping and session data.
+  * **Database & Auth:** MongoDB for data persistence and user profiles, paired with bcrypt and JWT for secure authentication.
   * **GIS & Visualization:** Leaflet.js (Mapping) and Recharts (Decadal climate analytics).
-  * **Infrastructure:** Stateless Node.js architecture ready for Cloud Run / Containerized deployment.
+  * **Infrastructure:** Node.js architecture ready for Cloud Run / Containerized deployment.
 * **Methodology and process for implementation:**
   * **Phase 1: Real-Time Data Ingestion:** Backend fetches live NWP grid data and satellite telemetry via APIs based on the user's selected coordinates.
   * **Phase 2: Spatial & Contextual Processing:** The system dynamically structures this weather telemetry alongside the active user persona (e.g., Farmer vs. Aviator).
@@ -63,8 +63,8 @@
 * **SMART INDIA HACKATHON 2026**
 * **FEASIBILITY AND VIABILITY**
 * **Analysis of the feasibility of the idea:**
-  * **High Technical Feasibility:** The architecture relies on proven open-source frameworks (React, Node.js) and accessible LLM APIs. By using precise Context-Injection rather than heavy model fine-tuning, we ensure scientific accuracy while keeping compute costs extremely low.
-  * **Economic Viability:** A stateless Backend-For-Frontend design ensures the application is highly suited for serverless deployment (Cloud Run), scaling costs efficiently based on active usage.
+  * **High Technical Feasibility:** The architecture relies on proven open-source frameworks (React 19, Node.js) and accessible LLM APIs. By using precise Context-Injection rather than heavy model fine-tuning, we ensure scientific accuracy.
+  * **Economic Viability & Scalability:** A modular backend paired with a cloud-managed NoSQL database (MongoDB Atlas) ensures the application is highly suited for serverless deployment (Cloud Run), scaling costs efficiently based on active usage.
 * **Potential challenges and risks:**
   * **AI Hallucinations:** The risk of the LLM inventing inaccurate weather forecasts.
   * **Response Latency:** Slow chat responses due to complex LLM context processing and API hops.

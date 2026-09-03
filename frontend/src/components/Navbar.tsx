@@ -12,6 +12,7 @@ import {
   Moon,
   Sun
 } from 'lucide-react';
+import { PWAInstallButton } from './PWAInstallButton';
 import { LanguageCode, WeatherAlert, Coordinates } from '../types';
 import { SUPPORTED_LANGUAGES, PRESET_REGIONS, UI_TRANSLATIONS } from '../data/mockWeatherData';
 import { LocationSearch } from './LocationSearch';
@@ -143,7 +144,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
           )}
 
-          {/* Auth Controls */}
+          {/* Auth Controls & Install */}
           {currentUser ? (
             <div className="flex items-center gap-1.5 sm:gap-2">
               <span className="hidden sm:inline-block text-xs font-semibold text-slate-700 dark:text-slate-300">
@@ -155,6 +156,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               >
                 Logout
               </button>
+              <PWAInstallButton />
             </div>
           ) : (
             <div className="flex items-center gap-2">
@@ -164,6 +166,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               >
                 Log In
               </button>
+              <PWAInstallButton />
             </div>
           )}
 
