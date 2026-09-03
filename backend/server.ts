@@ -15,7 +15,11 @@ const app = express();
 const PORT = 3000;
 
 app.use(express.json());
-app.use(cors());
+const frontendUrl = process.env.FRONTEND_URL || '*';
+app.use(cors({
+  origin: frontendUrl,
+  credentials: true
+}));
 
 // Initialize Gemini client server-side
 const geminiApiKey = process.env.GEMINI_API_KEY;
