@@ -103,7 +103,7 @@ export const InteractiveMapView: React.FC<InteractiveMapViewProps> = ({ currentL
         iconSize: [16, 16],
         iconAnchor: [8, 8]
       });
-      markerRef.current = (isNaN(Number(currentLocation.lat)) || isNaN(Number(currentLocation.lng))) ? null : L.marker([Number(currentLocation.lat), Number(currentLocation.lng)], { icon: customIcon }).addTo(mapInstanceRef.current);
+      if (!isNaN(Number(currentLocation.lat)) && !isNaN(Number(currentLocation.lng))) { markerRef.current = L.marker([Number(currentLocation.lat), Number(currentLocation.lng)], { icon: customIcon }).addTo(mapInstanceRef.current); } else { markerRef.current = null; }
     }
   }, [currentLocation]);
 
@@ -142,7 +142,7 @@ export const InteractiveMapView: React.FC<InteractiveMapViewProps> = ({ currentL
               iconSize: [30, 20],
               iconAnchor: [15, 10]
             });
-            (isNaN(Number(lat + latStep/2)) || isNaN(Number(lng + lngStep/2))) ? null : L.marker([Number(lat + latStep/2), Number(lng + lngStep/2)], { icon: tempIcon, interactive: false }).addTo(group);
+            if (!isNaN(Number(lat + latStep/2)) && !isNaN(Number(lng + lngStep/2))) { L.marker([Number(lat + latStep/2), Number(lng + lngStep/2)], { icon: tempIcon, interactive: false }).addTo(group); }
           }
         }
       } else if (activeLayer === 'wind') {
@@ -162,7 +162,7 @@ export const InteractiveMapView: React.FC<InteractiveMapViewProps> = ({ currentL
               iconSize: [28, 28],
               iconAnchor: [14, 14]
             });
-            (isNaN(Number(lat + latStep/2)) || isNaN(Number(lng + lngStep/2))) ? null : L.marker([Number(lat + latStep/2), Number(lng + lngStep/2)], { icon: windIcon, interactive: false }).addTo(group);
+            if (!isNaN(Number(lat + latStep/2)) && !isNaN(Number(lng + lngStep/2))) { L.marker([Number(lat + latStep/2), Number(lng + lngStep/2)], { icon: windIcon, interactive: false }).addTo(group); }
           }
         }
       } else if (activeLayer === 'radar') {

@@ -161,15 +161,17 @@ export const GISMap: React.FC<GISMapProps> = ({
       iconAnchor: [16, 16],
     });
 
-    const marker = (isNaN(Number(currentLocation.lat)) || isNaN(Number(currentLocation.lng))) ? null : L.marker([Number(currentLocation.lat), Number(currentLocation.lng)], { icon: pinIcon })
-      .bindPopup(`
+    const marker = (isNaN(Number(currentLocation.lat)) || isNaN(Number(currentLocation.lng))) ? null : L.marker([Number(currentLocation.lat), Number(currentLocation.lng)], { icon: pinIcon });
+    if (marker) {
+      marker.bindPopup(`
         <div class="p-2 text-xs space-y-1">
           <div class="font-bold text-cyan-600 dark:text-cyan-400 text-sm">${currentLocation.name}</div>
           <div class="text-slate-700 dark:text-slate-300">Temp: <span class="font-bold text-slate-900 dark:text-white">${weatherData?.temp || 32}°C</span> | Hum: ${weatherData?.humidity || 65}%</div>
           <div class="text-slate-500 dark:text-slate-400 font-mono">NWP Resolution: 3km WRF Grid</div>
         </div>
       `);
-    group.addLayer(marker);
+      group.addLayer(marker);
+    }
 
     // 2. Active Alert Warning Zones (Red, Orange, Yellow)
     if (activeLayers.alerts) {
@@ -218,11 +220,14 @@ export const GISMap: React.FC<GISMapProps> = ({
           </div>
         `;
 
+        
         circle.bindPopup(popupContent);
-        alertMarker.bindPopup(popupContent);
-
         group.addLayer(circle);
-        group.addLayer(alertMarker);
+        if (alertMarker) {
+            alertMarker.bindPopup(popupContent);
+            group.addLayer(alertMarker);
+        }
+
       });
     }
 
@@ -283,8 +288,10 @@ export const GISMap: React.FC<GISMapProps> = ({
           iconAnchor: [18, 12]
         });
 
-        const windMarker = (isNaN(Number(windLat)) || isNaN(Number(windLng))) ? null : L.marker([Number(windLat), Number(windLng)], { icon: windIcon });
-        group.addLayer(windMarker);
+        if (!isNaN(Number(windLat)) && !isNaN(Number(windLng))) {
+          const windMarker = L.marker([Number(windLat), Number(windLng)], { icon: windIcon });
+          group.addLayer(windMarker);
+        }
       });
     }
   }, [currentLocation, activeLayers, activeAlerts, weatherData, radarFrame]);
