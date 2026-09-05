@@ -21,6 +21,8 @@ app.use(cors({
   credentials: true
 }));
 
+const JWT_SECRET = process.env.JWT_SECRET || 'development_fallback_secret_only_for_local_testing';
+
 // Initialize Gemini client server-side
 const geminiApiKey = process.env.GEMINI_API_KEY;
 let ai: GoogleGenAI | null = null;
@@ -57,7 +59,7 @@ app.post('/api/auth/register', async (req, res) => {
   try {
     const passwordHash = await bcrypt.hash(password, 10);
     const user = await User.create({ username, passwordHash });
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET || 'fallback_secret', { expiresIn: '7d' });
+    const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '7d' });
     res.json({ success: true, userId: user._id, token, username });
   } catch (err: any) {
     if (err.code === 11000) return res.status(400).json({ error: 'User already exists' });
@@ -73,8 +75,7 @@ app.post('/api/auth/login', async (req, res) => {
   try {
     const user = await User.findOne({ username });
     if (user && await bcrypt.compare(password, user.passwordHash)) {
-      const secret = process.env.JWT_SECRET || 'fallback_secret_do_not_use_in_prod';
-      const token = jwt.sign({ userId: user._id }, secret, { expiresIn: '7d' });
+      const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '7d' });
       res.json({ token, username });
     } else {
       res.status(401).json({ error: 'Invalid credentials' });
@@ -90,8 +91,7 @@ const authenticateToken = (req: any, res: any, next: any) => {
   const token = authHeader && authHeader.split(' ')[1];
   if (!token) return res.status(401).json({ error: 'Unauthorized' });
 
-  const secret = process.env.JWT_SECRET || 'fallback_secret_do_not_use_in_prod';
-  jwt.verify(token, secret, (err: any, user: any) => {
+  jwt.verify(token, JWT_SECRET, (err: any, user: any) => {
     if (err) return res.status(403).json({ error: 'Forbidden' });
     req.user = user;
     next();
