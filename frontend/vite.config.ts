@@ -8,8 +8,7 @@ export default defineConfig({
     react(), 
     tailwindcss(),
     VitePWA({
-      registerType: 'autoUpdate',
-      injectRegister: 'auto',
+      registerType: 'prompt',
       includeAssets: [
         'icons/icon-48x48.png',
         'icons/icon-72x72.png',
@@ -119,7 +118,7 @@ export default defineConfig({
         ],
       },
       devOptions: {
-        enabled: true,
+        enabled: false,
         type: 'module',
       },
     })
