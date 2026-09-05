@@ -57,7 +57,7 @@ export const InteractiveMapView: React.FC<InteractiveMapViewProps> = ({ currentL
       mapInstanceRef.current = L.map(mapContainerRef.current, {
         zoomControl: false,
         attributionControl: false,
-      }).setView([currentLocation.lat, currentLocation.lng], 10);
+      }).setView([Number(currentLocation.lat) || 0, Number(currentLocation.lng) || 0], 10);
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
@@ -91,11 +91,11 @@ export const InteractiveMapView: React.FC<InteractiveMapViewProps> = ({ currentL
         });
       });
     } else {
-      mapInstanceRef.current.setView([currentLocation.lat, currentLocation.lng], 10);
+      mapInstanceRef.current.setView([Number(currentLocation.lat) || 0, Number(currentLocation.lng) || 0], 10);
     }
 
     if (markerRef.current) {
-      markerRef.current.setLatLng([currentLocation.lat, currentLocation.lng]);
+      markerRef.current.setLatLng([Number(currentLocation.lat) || 0, Number(currentLocation.lng) || 0]);
     } else {
       const customIcon = L.divIcon({
         className: 'custom-crosshair-icon',
@@ -103,7 +103,7 @@ export const InteractiveMapView: React.FC<InteractiveMapViewProps> = ({ currentL
         iconSize: [16, 16],
         iconAnchor: [8, 8]
       });
-      markerRef.current = L.marker([currentLocation.lat, currentLocation.lng], { icon: customIcon }).addTo(mapInstanceRef.current);
+      markerRef.current = (isNaN(Number(currentLocation.lat)) || isNaN(Number(currentLocation.lng))) ? null : L.marker([Number(currentLocation.lat), Number(currentLocation.lng)], { icon: customIcon }).addTo(mapInstanceRef.current);
     }
   }, [currentLocation]);
 
@@ -129,10 +129,7 @@ export const InteractiveMapView: React.FC<InteractiveMapViewProps> = ({ currentL
             const temp = baseTemp + Math.sin(lat * 10) * 3 + Math.cos(lng * 10) * 3;
             const color = temp > 35 ? '#ef4444' : temp > 25 ? '#f97316' : temp > 15 ? '#eab308' : temp > 5 ? '#22c55e' : '#3b82f6';
             
-            L.rectangle([
-              [lat, lng],
-              [lat + latStep, lng + lngStep]
-            ], {
+            L.rectangle([[Number(lat) || 0, Number(lng) || 0], [Number(lat + latStep) || 0, Number(lng + lngStep) || 0]], {
               color: 'transparent',
               fillColor: color,
               fillOpacity: 0.25,
@@ -145,7 +142,7 @@ export const InteractiveMapView: React.FC<InteractiveMapViewProps> = ({ currentL
               iconSize: [30, 20],
               iconAnchor: [15, 10]
             });
-            L.marker([lat + latStep/2, lng + lngStep/2], { icon: tempIcon, interactive: false }).addTo(group);
+            (isNaN(Number(lat + latStep/2)) || isNaN(Number(lng + lngStep/2))) ? null : L.marker([Number(lat + latStep/2), Number(lng + lngStep/2)], { icon: tempIcon, interactive: false }).addTo(group);
           }
         }
       } else if (activeLayer === 'wind') {
@@ -165,7 +162,7 @@ export const InteractiveMapView: React.FC<InteractiveMapViewProps> = ({ currentL
               iconSize: [28, 28],
               iconAnchor: [14, 14]
             });
-            L.marker([lat + latStep/2, lng + lngStep/2], { icon: windIcon, interactive: false }).addTo(group);
+            (isNaN(Number(lat + latStep/2)) || isNaN(Number(lng + lngStep/2))) ? null : L.marker([Number(lat + latStep/2), Number(lng + lngStep/2)], { icon: windIcon, interactive: false }).addTo(group);
           }
         }
       } else if (activeLayer === 'radar') {

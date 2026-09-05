@@ -68,7 +68,7 @@ export const GISMap: React.FC<GISMapProps> = ({
     if (mapInstanceRef.current) return;
 
     const map = L.map(mapContainerRef.current, {
-      center: [currentLocation.lat, currentLocation.lng],
+      center: [Number(currentLocation.lat) || 0, Number(currentLocation.lng) || 0],
       zoom: 8,
       zoomControl: true,
       attributionControl: false
@@ -137,7 +137,7 @@ export const GISMap: React.FC<GISMapProps> = ({
   // Update map center when currentLocation changes
   useEffect(() => {
     if (!mapInstanceRef.current) return;
-    mapInstanceRef.current.flyTo([currentLocation.lat, currentLocation.lng], 8, {
+    mapInstanceRef.current.flyTo([Number(currentLocation.lat) || 0, Number(currentLocation.lng) || 0], 8, {
       duration: 1.2
     });
   }, [currentLocation.lat, currentLocation.lng]);
@@ -161,7 +161,7 @@ export const GISMap: React.FC<GISMapProps> = ({
       iconAnchor: [16, 16],
     });
 
-    const marker = L.marker([currentLocation.lat, currentLocation.lng], { icon: pinIcon })
+    const marker = (isNaN(Number(currentLocation.lat)) || isNaN(Number(currentLocation.lng))) ? null : L.marker([Number(currentLocation.lat), Number(currentLocation.lng)], { icon: pinIcon })
       .bindPopup(`
         <div class="p-2 text-xs space-y-1">
           <div class="font-bold text-cyan-600 dark:text-cyan-400 text-sm">${currentLocation.name}</div>
@@ -177,7 +177,7 @@ export const GISMap: React.FC<GISMapProps> = ({
         const colorHex = alert.severityColor === 'red' ? '#EF4444' : alert.severityColor === 'orange' ? '#F97316' : '#FBBF24';
         
         // Circular risk zone
-        const circle = L.circle(alert.coordinates, {
+        const circle = L.circle([Number(alert.coordinates[0]) || 0, Number(alert.coordinates[1]) || 0], {
           radius: alert.radiusKm * 1000,
           color: colorHex,
           fillColor: colorHex,
@@ -201,7 +201,7 @@ export const GISMap: React.FC<GISMapProps> = ({
           iconAnchor: [14, 14],
         });
 
-        const alertMarker = L.marker(alert.coordinates, { icon: alertIcon });
+        const alertMarker = (isNaN(Number(alert.coordinates[0])) || isNaN(Number(alert.coordinates[1]))) ? null : L.marker([Number(alert.coordinates[0]), Number(alert.coordinates[1])], { icon: alertIcon });
 
         const popupContent = `
           <div class="p-2 text-xs max-w-xs space-y-2">
@@ -238,7 +238,7 @@ export const GISMap: React.FC<GISMapProps> = ({
 
       radarCenters.forEach((cell) => {
         const radarColor = cell.intensity > 55 ? '#ef4444' : cell.intensity > 40 ? '#f59e0b' : '#06b6d4';
-        const radarCircle = L.circle([cell.lat, cell.lng], {
+        const radarCircle = L.circle([Number(cell.lat) || 0, Number(cell.lng) || 0], {
           radius: cell.radius + (radarFrame * 2500),
           color: radarColor,
           fillColor: radarColor,
@@ -283,7 +283,7 @@ export const GISMap: React.FC<GISMapProps> = ({
           iconAnchor: [18, 12]
         });
 
-        const windMarker = L.marker([windLat, windLng], { icon: windIcon });
+        const windMarker = (isNaN(Number(windLat)) || isNaN(Number(windLng))) ? null : L.marker([Number(windLat), Number(windLng)], { icon: windIcon });
         group.addLayer(windMarker);
       });
     }

@@ -144,8 +144,8 @@ export default function App() {
 
   // Handle Location Selection
   const handleLocationSelect = (loc: Coordinates) => {
-    if (!loc || isNaN(loc.lat) || isNaN(loc.lng)) return;
-    setCurrentLocation(loc);
+    if (!loc || isNaN(Number(loc.lat)) || isNaN(Number(loc.lng))) return;
+    setCurrentLocation({ ...loc, lat: Number(loc.lat), lng: Number(loc.lng) });
   };
 
   // Handle Persona Switching

@@ -1,28 +1,20 @@
 const fs = require('fs');
-let code = fs.readFileSync('frontend/src/App.tsx', 'utf8');
 
-// Imports
-code = code.replace("import { Navbar } from './components/Navbar';", "import { Navbar } from './components/Navbar';\nimport { AuthModal } from './components/AuthModal';");
+function patch(file) {
+    if(!fs.existsSync(file)) return;
+    let code = fs.readFileSync(file, 'utf8');
+    
+    code = code.replace(
+        /const handleLocationSelect = \(loc: Coordinates\) => \{[\s\S]*?setCurrentLocation\(loc\);\s*\};/m,
+        `const handleLocationSelect = (loc: Coordinates) => {
+    if (!loc || isNaN(Number(loc.lat)) || isNaN(Number(loc.lng))) return;
+    setCurrentLocation({ ...loc, lat: Number(loc.lat), lng: Number(loc.lng) });
+  };`
+    );
 
-// States
-const stateAnchor = "const [isDarkMode, setIsDarkMode] = useState(true);";
-const authStates = `const [isDarkMode, setIsDarkMode] = useState(true);
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [currentUser, setCurrentUser] = useState<string | null>(null);`;
-code = code.replace(stateAnchor, authStates);
+    fs.writeFileSync(file, code);
+    console.log("Patched", file);
+}
 
-// Pass props to Navbar
-code = code.replace(/<Navbar/g, `<Navbar\n            currentUser={currentUser}\n            onOpenAuth={() => setIsAuthModalOpen(true)}\n            onLogout={() => { localStorage.removeItem('token'); setCurrentUser(null); }}`);
+patch('frontend/src/App.tsx');
 
-// Add AuthModal component inside the main return wrapper
-const appContainerAnchor = 'return (\n    <div className={`min-h-screen font-sans antialiased transition-colors duration-300 ${isDarkMode ? \'dark bg-[#0B1121]\' : \'bg-slate-50\'}`}>';
-const modalInject = `return (
-    <div className={\`min-h-screen font-sans antialiased transition-colors duration-300 \${isDarkMode ? 'dark bg-[#0B1121]' : 'bg-slate-50'}\`}>
-      <AuthModal 
-        isOpen={isAuthModalOpen} 
-        onClose={() => setIsAuthModalOpen(false)} 
-        onLogin={(username) => setCurrentUser(username)} 
-      />`;
-code = code.replace(appContainerAnchor, modalInject);
-
-fs.writeFileSync('frontend/src/App.tsx', code);
